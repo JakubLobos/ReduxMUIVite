@@ -1,6 +1,4 @@
 import {
-  Alert,
-  Avatar,
   BottomNavigation,
   BottomNavigationAction,
   CssBaseline,
@@ -13,11 +11,10 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { useSelector } from "react-redux";
 import { User } from "../../../slices/authSlice";
 import { RootState } from "../../../store";
-import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const user: User = useSelector((state: RootState) => state.auth.user);
-  const [isSucces, setIsSuccess] = useState<null | boolean>(null);
 
   const MuiCssBaseline = styled(CssBaseline)`
     * {
@@ -30,19 +27,19 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const getUserAuthStatus = () => {
     if (user.name !== null) {
       return (
-        <BottomNavigationAction
-          href="/myAccount"
-          label="My account"
-          icon={<AccountBoxIcon />}
-        />
+        <Link to="/myAccount">
+          <BottomNavigationAction
+            label="My account"
+            value="My account"
+            icon={<AccountBoxIcon />}
+          />
+        </Link>
       );
     } else {
       return (
-        <BottomNavigationAction
-          href="/login"
-          label="Login"
-          icon={<LoginIcon />}
-        />
+        <Link to="/Login">
+          <BottomNavigationAction label="Login" icon={<LoginIcon />} />
+        </Link>
       );
     }
   };
@@ -56,7 +53,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         elevation={3}
       >
         <BottomNavigation showLabels>
-          <BottomNavigationAction href="/" label="Home" icon={<HomeIcon />} />
+          <NavLink to="/">
+            <BottomNavigationAction label="Home" icon={<HomeIcon />} />
+          </NavLink>
           {getUserAuthStatus()}
         </BottomNavigation>
       </Paper>
